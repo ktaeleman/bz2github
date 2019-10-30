@@ -1,5 +1,10 @@
 # bz2github
 
+## About ##
+
+This is a simple tool to sync bugs from bugzilla.mozilla.org to github.
+It will create or update corresponding issues into the github issues list of the specified repo or project.
+
 ## Getting an API key ##
 
 See here: https://github.blog/2013-05-16-personal-api-tokens/
