@@ -122,7 +122,7 @@ impl Bz2GhClient {
         let issue_data = HttpGithubIssue {
             number: issue.number,
             title: format!("{} [{}]", bug.summary, bug.id),
-            body: format!("https://bugzilla.mozilla.org/show_bug.cgi?id={}", bug.id),
+            body: issue.body.clone(),
             labels: self.labels.to_vec(),
         };
 
