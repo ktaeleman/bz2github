@@ -128,6 +128,7 @@ impl Bz2GhClient {
 
     fn get_bugzilla_bugs(&mut self) -> HttpBugzillaBugs {
         let param_data: Vec<(&str,&str)> = self.queryparams.iter().map(|(s1,s2)| (s1.as_ref(), s2.as_ref())).collect();
+        println!("Running query: {:?}", param_data);
         self.bz_client.get_with((), &param_data[..]).unwrap()
     }
 
@@ -178,6 +179,7 @@ impl Bz2GhClient {
 
 
         for bug in &bugs.bugs {
+            println!("Processing bug {}: {}", bug.id, bug.summary);
             let existing_issue = Bz2GhClient::find_issue_from_bug(&issues, &bug);
             match existing_issue {
                 Some(a) => self.update_issue(&a, &bug),
@@ -225,7 +227,13 @@ fn main() {
                     .get_matches();
 
     let mut client = Bz2GhClient::new(&args);
-
     let data = client.get_bugzilla_bugs();
-    client.sync_issues(&data);
+    if !data.bugs.is_empty() {
+        client.sync_issues(&data);
+    } else {
+        println!("Zarro boogs found.");
+    }
+
+
+    println!("Done.");
 }
