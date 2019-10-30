@@ -5,22 +5,7 @@ extern crate clap;
 extern crate serde_json;
 
 use clap::{Arg, ArgMatches, App};
-//use std::env;
 use restson::{Error, RestClient, RestPath};
-
-pub fn encode(data: &str) -> String {
-    let mut escaped = String::new();
-    for b in data.as_bytes().iter() {
-        match *b as char {
-            // Accepted characters
-            'A'..='Z' | 'a'..='z' | '0'..='9' | '-' | '_' | '.' | '~' => escaped.push(*b as char),
-
-            // Everything else is percent-encoded
-            b => escaped.push_str(format!("%{:02X}", b as u32).as_str()),
-        };
-    }
-    return escaped;
-}
 
 #[derive(Deserialize)]
 struct HttpBugzillaBug {
@@ -33,22 +18,11 @@ struct HttpBugzillaBugs {
     bugs: Vec<HttpBugzillaBug>,
 }
 
-// impl RestPath<u32> for HttpBugzillaBugs {
-//     fn get_path(issue_id: u32) -> Result<String, Error> {
-//         Ok(format!("rest/bug/{}", issue_id))
-//     }
-// }
-
 impl RestPath<()> for HttpBugzillaBugs {
     fn get_path(_: ()) -> Result<String, Error> {
         Ok(String::from("rest/bug"))
     }
 }
-
-// fn get_bugzilla_bug(issue_id: u32) -> HttpBugzillaBugs {
-//     let mut client = RestClient::new("https://bugzilla.mozilla.org").unwrap();
-//     client.get(issue_id).unwrap()
-// }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct HttpGithubIssue {
@@ -190,7 +164,6 @@ impl Bz2GhClient {
 }
 
 fn main() {
-    //let apikey = env::var("GITHUB_API_KEY").unwrap();
     let args = App::new("Bugzilla to Github")
                     .version("0.1")
                     .author("Kris Taeleman <ktaeleman@mozilla.com>")
