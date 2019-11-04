@@ -36,6 +36,10 @@ OPTIONS:
 
 ## Examples ##
 
+#### Single bug and attach label ###
+
+```cargo run -- -p -a[API-KEY] -qid=1525312 -rFirefoxGraphics/wr-planning -l"OS: Android"```
+
 #### All bugs blocking another bug ###
 
 ```cargo run -- -p -a[API-KEY] -qquery_format=advanced -qf1=blocked -qo1=equals -qv1=1525312  -q"resolution=---" -qlimit=100 -rFirefoxGraphics/wr-planning -l"OS: Android"```
